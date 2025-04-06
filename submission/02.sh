@@ -17,23 +17,13 @@ utxo_vout_1_value=$(bitcoin-cli -regtest decoderawtransaction $transaction | jq 
 utxo_vout_2=$(bitcoin-cli -regtest decoderawtransaction $transaction | jq -r '.vout | .[1] | .n')
 utxo_vout_2_value=$(bitcoin-cli -regtest decoderawtransaction $transaction | jq -r '.vout | .[1] | .value')
 
-# Calculate total input value (in satoshis)
-total_input_sats=$(echo "$utxo_vout_1_value + $utxo_vout_2_value" | bc | awk '{printf "%.0f", $1 * 100000000}')
-
-# Calculate change amount (total input - 20,000,000 satoshis)
-change_sats=$((total_input_sats - 20000000))
-
-# Convert change amount back to BTC with 8 decimal places
-change_amount=$(echo "scale=8; $change_sats / 100000000" | bc | awk '{printf "%.8f", $1}')
-
 # Create the raw transaction with nLockTime set to 2041
 bitcoin-cli -regtest -named createrawtransaction \
-inputs='''[ 
-  { "txid": "'$txn_id'", "vout": '$utxo_vout_1', "sequence": 1 }, 
-  { "txid": "'$txn_id'", "vout": '$utxo_vout_2', "sequence": 1 } 
+inputs='''[
+  { "txid": "'$txn_id'", "vout": '$utxo_vout_1', "sequence": 4294967293 },
+  { "txid": "'$txn_id'", "vout": '$utxo_vout_2', "sequence": 4294967293 }
 ]''' \
-outputs='''{ 
-  "'$recipient'": 0.20000000, 
-  "'$recipient'": '$change_amount' 
+outputs='''{
+  "'$recipient'": 0.20000000
 }''' \
 locktime=2041
