@@ -19,6 +19,6 @@ utxo_vout_2_value=$(bitcoin-cli -regtest decoderawtransaction $transaction | jq 
 
 
 # Create raw transaction with OP_RETURN output
-raw_tx=$(bitcoin-cli -regtest -named createrawtransaction inputs="[ { \"txid\": \"$txn_id\", \"vout\": $utxo_vout_1 }, { \"txid\": \"$txn_id\", \"vout\": $utxo_vout_2 } ]" outputs="{ \"data\": \"$message_hex\", \"$recipient\": 0.20000000 }")
+raw_tx=$(bitcoin-cli -regtest -named createrawtransaction inputs="[ { \"txid\": \"$txn_id\", \"vout\": $utxo_vout_1 }, { \"txid\": \"$txn_id\", \"vout\": $utxo_vout_2 } ]" outputs="{ \"data\": \"$message_hex\", \"$receipient\": 0.20000000 }")
 
 echo "Raw transaction with embedded message: $raw_tx"
