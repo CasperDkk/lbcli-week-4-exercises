@@ -12,10 +12,10 @@ transaction="01000000000101c8b0928edebbec5e698d5f86d0474595d9f6a5b2e4e3772cd9d10
 txn_id=$(bitcoin-cli -regtest decoderawtransaction "$transaction" | jq -r '.txid')
 
 # Convert message to hex
-message_hex=$(echo -n "$message" | xxd -p | tr -d '\n')
+message_hex=$(echo -n "$message" | xxd -p)
 
-utxo_vout_2=$(bitcoin-cli -regtest decoderawtransaction $transaction | jq -r '.vout | .[1] | .n // .vout')
-utxo_vout_2_value=$(bitcoin-cli -regtest decoderawtransaction $transaction | jq -r '.vout | .[1] | .value')
+utxo_vout_1=$(bitcoin-cli -regtest decoderawtransaction $transaction | jq -r '.vout[0].n')
+utxo_vout_2=$(bitcoin-cli -regtest decoderawtransaction $transaction | jq -r '.vout[1].n')
 
 
 # Create raw transaction with OP_RETURN output
