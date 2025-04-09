@@ -7,6 +7,6 @@ transaction="0200000001d54e767769b3c3b8707115f748c88f7323def5b78147628aa071fdcf2
 decoded_transaction=$(bitcoin-cli -regtest decoderawtransaction "$transaction")
 
 # Extract the locking script
-locking_script=$(echo "$decoded_transaction" | jq -r '.vout[0].scriptPubKey.hex')
+locking_script=$(echo "$decoded_transaction" | jq -r '.vout[].scriptPubKey.hex')
 
 echo "Locking Script (hex): $locking_script"

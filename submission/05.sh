@@ -7,6 +7,6 @@ transaction="0200000001d54e767769b3c3b8707115f748c88f7323def5b78147628aa071fdcf2
 decoded_transaction=$(bitcoin-cli -regtest decoderawtransaction "$transaction")
 
 # Extract the unlocking script
-unlocking_script=$(echo "$decoded_transaction" | jq -r '.vin[0].scriptSig.hex')
+unlocking_script=$(echo "$decoded_transaction" | jq -r '.vin[].scriptSig.hex')
 
 echo "Unlocking Script (hex): $unlocking_script"
